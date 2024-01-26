@@ -41,6 +41,18 @@ module.exports.register = async (event) => {
                     Permanent: true,
                 })
                 .promise();
+            await cognito
+                .adminUpdateUserAttributes({
+                    UserPoolId: USER_POOL,
+                    Username: email,
+                    UserAttributes: [
+                        {
+                            Name: 'email_verified',
+                            Value: 'false'
+                        }
+                    ]
+                })
+                .promise();
         }
     
         return sendResponse(200, { result });
